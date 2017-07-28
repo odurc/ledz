@@ -49,7 +49,7 @@ extern "C"
 ****************************************************************************************************
 */
 
-#define LEDZ_VERSION     "0.0.0"
+#define LEDZ_VERSION     "1.0.0"
 
 
 /*
@@ -77,10 +77,22 @@ extern "C"
 ****************************************************************************************************
 */
 
+/**
+ * @struct ledz_t
+ * An opaque structure representing a led object
+ */
 typedef struct LEDZ_T ledz_t;
 
+/**
+ * @struct ledz_type_t
+ * LED types, i.e. how many LEDs are inside of the package
+ */
 typedef enum ledz_type_t {LEDZ_1COLOR = 1, LEDZ_2COLOR, LEDZ_3COLOR} ledz_type_t;
 
+/**
+ * @struct ledz_color_t
+ * LED colors
+ */
 typedef enum ledz_color_t {
     LEDZ_RED    = 0x01,
     LEDZ_GREEN  = 0x02,
@@ -99,14 +111,113 @@ typedef enum ledz_color_t {
 ****************************************************************************************************
 */
 
+/**
+ * @defgroup ledz_funcs LED Functions
+ * Set of functions to control the LEDs
+ * @{
+ */
+
+/**
+ * Create ledz object
+ *
+ * When creating a ledz the type must be passed as the first argument and
+ * it must be one of the values defined by ledz_type_t enumeration. The second
+ * argument must be an array containing the color(s) of the LED being created.
+ * The third argument must be an integer array of the port and pin of each LED
+ * in correspondence with the previous color(s).
+ *
+ * Examples:
+ *      ledz_create(LEDZ_1COLOR, (const ledz_color_t []){LEDZ_RED}, (const int []){0, 1});
+ *
+ *      const ledz_color_t colors[] = {LEDZ_RED, LEDZ_GREEN, LEDZ_BLUE};
+ *      const int pins[] = {0, 1,  0, 2,  0, 3};
+ *      ledz_create(LEDZ_3COLOR, colors, pins);
+ *
+ * @param[in] type must one of the values in ledz_type_t declaration
+ * @param[in] colors its a ledz_color_t type array containing the LED colors
+ * @param[in] pins an integer array of the port and pin of each LED
+ *
+ * @return pointer to stimer object or NULL if no more timers are available
+ */
 ledz_t* ledz_create(ledz_type_t type, const ledz_color_t *colors, const int *pins);
+
+/**
+ * Destroy ledz_t object
+ *
+ * @param[in] led ledz object pointer
+ */
 void ledz_destroy(ledz_t* led);
+
+/**
+ * Turn LED on
+ *
+ * Colors can be combinated using the OR operator.
+ *
+ * @param[in] led ledz object pointer
+ * @param[in] color the color to turn on
+ */
 void ledz_on(ledz_t* led, ledz_color_t color);
+
+/**
+ * Turn LED off
+ *
+ * Colors can be combinated using the OR operator.
+ *
+ * @param[in] led ledz object pointer
+ * @param[in] color the color to turn off
+ */
 void ledz_off(ledz_t* led, ledz_color_t color);
+
+/**
+ * Toggle LED state
+ *
+ * Colors can be combinated using the OR operator.
+ *
+ * @param[in] led ledz object pointer
+ * @param[in] color the color to toggle
+ */
 void ledz_toggle(ledz_t* led, ledz_color_t color);
+
+/**
+ * Set LED state
+ *
+ * Colors can be combinated using the OR operator.
+ * Positive value turn the LED on, zero turn the LED off and negative
+ * value toggle the LED state.
+ *
+ * @param[in] led ledz object pointer
+ * @param[in] color the color to set
+ * @param[in] value the value to switch the state
+ */
 void ledz_set(ledz_t* led, ledz_color_t color, int value);
+
+/**
+ * Start LED blinking
+ *
+ * Colors can be combinated using the OR operator.
+ * Start blinking the LED(s) according the requested time. To stop blinking
+ * use ledz_on, ledz_off, ledz_toggle or ledz_set functions. This function
+ * can also be used to stop the blinking passing zero to time_on or time_off.
+ *
+ * @param[in] led ledz object pointer
+ * @param[in] color the color to blink
+ * @param[in] time_on the time in milliseconds which the LED will be on
+ * @param[in] time_off the time in milliseconds which the LED will be off
+ */
 void ledz_blink(ledz_t* led, ledz_color_t color, uint16_t time_on, uint16_t time_off);
+
+/**
+ * The tick function
+ *
+ * This function must be used to define the clock of the ledz core. It must be called
+ * from an interrupt service routine (ISR). The period of the interruption must be set
+ * using the LEDZ_TICK_PERIOD macro.
+ */
 void ledz_tick(void);
+
+/**
+ * @}
+ */
 
 
 /*
