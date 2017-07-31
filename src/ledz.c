@@ -38,17 +38,15 @@
 ****************************************************************************************************
 */
 
-#define LEDZ_TURN_OFF_VALUE     (1 - LEDZ_TURN_ON_VALUE)
-
 // calculate (rounded) how many ticks are need to reach a period of 1ms
-#define TICKS_TO_1ms            ((10000 / LEDZ_TICK_PERIOD + 5) / 10)
+#define TICKS_TO_1ms        ((10000 / LEDZ_TICK_PERIOD + 5) / 10)
+
+// invert led value if user has defined LEDZ_TURN_ON_VALUE as zero
+#define LED_VALUE(val)      (!(LEDZ_TURN_ON_VALUE ^ (val)))
 
 // macro to set led GPIO
-#if LEDZ_TURN_ON_VALUE == 1
-#define LED_SET(led, val)       LEDZ_GPIO_SET(led->pins[0], led->pins[1], (val));
-#else
-#define LED_SET(led, val)       LEDZ_GPIO_SET(led->pins[0], led->pins[1], 1-(val));
-#endif
+#define LED_SET(led, val)   LEDZ_GPIO_SET(led->pins[0], led->pins[1], LED_VALUE(val)); \
+                            led->state = (val);
 
 
 /*
@@ -203,9 +201,6 @@ void ledz_set(ledz_t* led, ledz_color_t color, int value)
             if (value < 0)
                 value = 1 - led->state;
 
-            // update led state
-            led->state = value;
-
             // update led GPIO
             LED_SET(led, value);
         }
@@ -265,7 +260,6 @@ void ledz_tick(void)
             {
                 // turn off led
                 LED_SET(led, 0);
-                led->state = 0;
 
                 // load counter with time off value
                 led->counter = led->time_off;
@@ -274,7 +268,6 @@ void ledz_tick(void)
             {
                 // turn on led
                 LED_SET(led, 1);
-                led->state = 1;
 
                 // load counter with time on value
                 led->counter = led->time_on;
