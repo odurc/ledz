@@ -11,7 +11,7 @@ static void* tick(void *arg)
 
     while (1)
     {
-        usleep(1000);
+        usleep(200);
         ledz_tick();
     }
 
