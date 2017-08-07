@@ -68,7 +68,7 @@ extern "C"
 #define LEDZ_TURN_ON_VALUE      1
 
 // tick period in us
-#define LEDZ_TICK_PERIOD        1000
+#define LEDZ_TICK_PERIOD        200
 
 
 /*
@@ -127,11 +127,15 @@ typedef enum ledz_color_t {
  * in correspondence with the previous color(s).
  *
  * Examples:
+ *      \code{.c}
+ *      // create one color LED
  *      ledz_create(LEDZ_1COLOR, (const ledz_color_t []){LEDZ_RED}, (const int []){0, 1});
  *
+ *      // create RGB LED
  *      const ledz_color_t colors[] = {LEDZ_RED, LEDZ_GREEN, LEDZ_BLUE};
  *      const int pins[] = {0, 1,  0, 2,  0, 3};
  *      ledz_create(LEDZ_3COLOR, colors, pins);
+ *      \endcode
  *
  * @param[in] type must one of the values in ledz_type_t declaration
  * @param[in] colors its a ledz_color_t type array containing the LED colors
@@ -205,6 +209,17 @@ void ledz_set(ledz_t* led, ledz_color_t color, int value);
  * @param[in] time_off the time in milliseconds which the LED will be off
  */
 void ledz_blink(ledz_t* led, ledz_color_t color, uint16_t time_on, uint16_t time_off);
+
+/**
+ * Set LED brightness
+ *
+ * Colors can be combinated using the OR operator.
+ *
+ * @param[in] led ledz object pointer
+ * @param[in] color the color to adjust
+ * @param[in] value the brightness value from 0 to 100
+ */
+void ledz_brightness(ledz_t* led, ledz_color_t color, unsigned int value);
 
 /**
  * The tick function

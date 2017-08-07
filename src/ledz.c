@@ -2,7 +2,7 @@
  * LEDZ - The LED Zeppelin
  * https://github.com/ricardocrudo/ledz
  *
- * Copyright (c) 2016 Ricardo Crudo <ricardo.crudo@gmail.com>
+ * Copyright (c) 2017 Ricardo Crudo <ricardo.crudo@gmail.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -69,9 +69,12 @@ struct LEDZ_T {
     struct {
         unsigned int state : 1;
         unsigned int blink : 1;
+        unsigned int blink_state : 1;
+        unsigned int brightness : 1;
     };
 
-    uint16_t time_on, time_off, counter;
+    uint16_t time_on, time_off, time;
+    unsigned int pwm, pwm_duty;
     ledz_t *next;
 };
 
@@ -224,9 +227,15 @@ void ledz_blink(ledz_t* led, ledz_color_t color, uint16_t time_on, uint16_t time
 
             // load counter according current state
             if (led->state)
-                led->counter = time_on;
+            {
+                led->blink_state = 1;
+                led->time = time_on;
+            }
             else
-                led->counter = time_off;
+            {
+                led->blink_state = 0;
+                led->time = time_off;
+            }
 
             // start blinking
             led->blink = 1;
@@ -234,43 +243,112 @@ void ledz_blink(ledz_t* led, ledz_color_t color, uint16_t time_on, uint16_t time
     }
 }
 
+void ledz_brightness(ledz_t* led, ledz_color_t color, unsigned int value)
+{
+    if (value > 100)
+        value = 100;
+
+    // enable brightness control
+    if (value > 0 && value < 100)
+    {
+        led->pwm_duty = value;
+        led->brightness = 1;
+    }
+    // does not use PWM if value is min or max
+    else
+    {
+        led->brightness = 0;
+        ledz_set(led, color, value);
+    }
+}
+
 void ledz_tick(void)
 {
-    static uint16_t counter;
+    static uint16_t counter_1ms;
+    int flag_1ms = 0;
 
-    if (++counter < TICKS_TO_1ms)
-        return;
-
-    // reset counter
-    counter = 0;
+    // check if 1ms has been passed
+    if (++counter_1ms >= TICKS_TO_1ms)
+    {
+        counter_1ms = 0;
+        flag_1ms = 1;
+    }
 
     for (int i = 0; i < LEDZ_MAX_INSTANCES; i++)
     {
         ledz_t *led = &g_leds[i];
 
-        if (led->pins == 0 || led->blink == 0)
+        // skip if led is not in use
+        if (led->pins == 0)
             continue;
 
-        if (led->counter > 0)
-            led->counter--;
-
-        if (led->counter == 0)
+        // execute blink control if 1ms has been passed
+        if (led->blink && flag_1ms)
         {
-            if (led->state)
-            {
-                // turn off led
-                LED_SET(led, 0);
+            if (led->time > 0)
+                led->time--;
 
-                // load counter with time off value
-                led->counter = led->time_off;
+            if (led->time == 0)
+            {
+                if (led->blink_state)
+                {
+                    // turn off led
+                    LED_SET(led, 0);
+
+                    // load counter with time off value
+                    led->time = led->time_off;
+
+                    // disable brightness control
+                    led->brightness = 0;
+                }
+                else
+                {
+                    // turn on led
+                    LED_SET(led, 1);
+
+                    // load counter with time on value
+                    led->time = led->time_on;
+
+                    // enable brightness control
+                    if (led->pwm_duty > 0 && led->pwm_duty < 100)
+                    {
+                        led->brightness = 1;
+                        led->pwm = led->pwm_duty;
+                    }
+                }
+
+                // toggle blink state
+                led->blink_state = 1 - led->blink_state;
+
+                // go to next led if blink control has updated led state
+                continue;
             }
-            else
-            {
-                // turn on led
-                LED_SET(led, 1);
+        }
 
-                // load counter with time on value
-                led->counter = led->time_on;
+        // brightness control
+        if (led->brightness)
+        {
+            if (led->pwm > 0)
+                led->pwm--;
+
+            if (led->pwm == 0)
+            {
+                if (led->state)
+                {
+                    // turn off led
+                    LED_SET(led, 0);
+
+                    // load counter with duty cycle complement
+                    led->pwm = 100 - led->pwm_duty;
+                }
+                else
+                {
+                    // turn on led
+                    LED_SET(led, 1);
+
+                    // load counter with duty cycle value
+                    led->pwm = led->pwm_duty;
+                }
             }
         }
     }
