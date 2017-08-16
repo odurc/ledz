@@ -48,6 +48,13 @@
 #define LED_SET(led, val)   LEDZ_GPIO_SET(led->pins[0], led->pins[1], LED_VALUE(val)); \
                             led->state = (val);
 
+// macro to set PWM
+#ifdef LEDZ_GPIO_PWM
+#define LED_PWM(led,duty)   LEDZ_GPIO_PWM(led->pins[0], led->pins[1], duty)
+#else
+#define LED_PWM(led,duty)
+#endif
+
 
 /*
 ****************************************************************************************************
@@ -253,6 +260,7 @@ void ledz_brightness(ledz_t* led, ledz_color_t color, unsigned int value)
     {
         led->pwm_duty = value;
         led->brightness = 1;
+        LED_PWM(led, value);
     }
     // does not use PWM if value is min or max
     else
@@ -300,6 +308,9 @@ void ledz_tick(void)
 
                     // disable brightness control
                     led->brightness = 0;
+
+                    // set hardware PWM
+                    LED_PWM(led, 0);
                 }
                 else
                 {
@@ -314,6 +325,9 @@ void ledz_tick(void)
                     {
                         led->brightness = 1;
                         led->pwm = led->pwm_duty;
+
+                        // set hardware PWM
+                        LED_PWM(led, led->pwm_duty);
                     }
                 }
 
@@ -326,6 +340,7 @@ void ledz_tick(void)
         }
 
         // brightness control
+#ifndef LEDZ_GPIO_PWM
         if (led->brightness)
         {
             if (led->pwm > 0)
@@ -351,5 +366,6 @@ void ledz_tick(void)
                 }
             }
         }
+#endif
     }
 }

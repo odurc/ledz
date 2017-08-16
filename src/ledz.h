@@ -61,6 +61,11 @@ extern "C"
 // configure the function to set a GPIO
 #define LEDZ_GPIO_SET(port,pin,value)   gpio_set(port,pin,value)
 
+// configure the function to set the PWM of a GPIO
+// when the below macro is not defined (default) the PWM is generated internally
+// in this case the PWM frequency = 1 / (LEDZ_TICK_PERIOD * 1E-6 * 100)
+//#define LEDZ_GPIO_PWM(port,pin,duty)    gpio_pwm(port,pin,duty)
+
 // maximum of LEDs to control (note: RGB count as 3 LEDs)
 #define LEDZ_MAX_INSTANCES      3
 
