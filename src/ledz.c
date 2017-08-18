@@ -62,6 +62,21 @@
 ****************************************************************************************************
 */
 
+// table from: http://jared.geek.nz/2013/feb/linear-led-pwm
+const unsigned char cie1931[101] = {
+      0,   0,   0,   0,   0,   1,   1,   1,   1,   1,
+      1,   1,   1,   2,   2,   2,   2,   2,   3,   3,
+      3,   3,   4,   4,   4,   4,   5,   5,   5,   6,
+      6,   7,   7,   8,   8,   8,   9,  10,  10,  11,
+     11,  12,  12,  13,  14,  15,  15,  16,  17,  18,
+     18,  19,  20,  21,  22,  23,  24,  25,  26,  27,
+     28,  29,  30,  32,  33,  34,  35,  37,  38,  39,
+     41,  42,  44,  45,  47,  48,  50,  52,  53,  55,
+     57,  58,  60,  62,  64,  66,  68,  70,  72,  74,
+     76,  78,  81,  83,  85,  88,  90,  92,  95,  97,
+    100,
+};
+
 
 /*
 ****************************************************************************************************
@@ -81,7 +96,8 @@ struct LEDZ_T {
     };
 
     uint16_t time_on, time_off, time;
-    unsigned int pwm, pwm_duty;
+    unsigned int pwm, brightness_value;
+
     ledz_t *next;
 };
 
@@ -192,8 +208,9 @@ void ledz_toggle(ledz_t* led, ledz_color_t color)
 
 void ledz_set(ledz_t* led, ledz_color_t color, int value)
 {
-    // stop blinking
+    // disable blinking and brightness control
     led->blink = 0;
+    led->brightness = 0;
 
     // adjust value
     if (value >= 1)
@@ -252,21 +269,29 @@ void ledz_blink(ledz_t* led, ledz_color_t color, uint16_t time_on, uint16_t time
 
 void ledz_brightness(ledz_t* led, ledz_color_t color, unsigned int value)
 {
-    if (value > 100)
+    if (value >= 100)
         value = 100;
 
-    // enable brightness control
-    if (value > 0 && value < 100)
+    for (int i = 0; led; led = led->next, i++)
     {
-        led->pwm_duty = value;
-        led->brightness = 1;
-        LED_PWM(led, value);
-    }
-    // does not use PWM if value is min or max
-    else
-    {
-        led->brightness = 0;
-        ledz_set(led, color, value);
+        if (led->color & color)
+        {
+            // convert brightness value to duty cycle according cie 1931
+            int duty_cycle = cie1931[value];
+
+            // enable hardware PWM
+            if (duty_cycle > 0 && duty_cycle < 100)
+                LED_PWM(led, duty_cycle);
+
+            // does not use PWM if value is min or max
+            else
+                LED_SET(led, (duty_cycle >> 2) & 1);
+
+            // enable brightness control
+            led->pwm = 0;
+            led->brightness_value = value;
+            led->brightness = 1;
+        }
     }
 }
 
@@ -300,35 +325,25 @@ void ledz_tick(void)
             {
                 if (led->blink_state)
                 {
+                    // disable hardware PWM
+                    LED_PWM(led, 0);
+
                     // turn off led
                     LED_SET(led, 0);
 
                     // load counter with time off value
                     led->time = led->time_off;
-
-                    // disable brightness control
-                    led->brightness = 0;
-
-                    // set hardware PWM
-                    LED_PWM(led, 0);
                 }
                 else
                 {
                     // turn on led
                     LED_SET(led, 1);
 
+                    // enable hardware PWM
+                    LED_PWM(led, cie1931[led->brightness_value]);
+
                     // load counter with time on value
                     led->time = led->time_on;
-
-                    // enable brightness control
-                    if (led->pwm_duty > 0 && led->pwm_duty < 100)
-                    {
-                        led->brightness = 1;
-                        led->pwm = led->pwm_duty;
-
-                        // set hardware PWM
-                        LED_PWM(led, led->pwm_duty);
-                    }
                 }
 
                 // toggle blink state
@@ -341,29 +356,22 @@ void ledz_tick(void)
 
         // brightness control
 #ifndef LEDZ_GPIO_PWM
-        if (led->brightness)
+        if (led->brightness && (!led->blink || (led->blink && led->blink_state)))
         {
             if (led->pwm > 0)
                 led->pwm--;
 
             if (led->pwm == 0)
             {
+                // load counter with duty cycle according led state
                 if (led->state)
-                {
-                    // turn off led
-                    LED_SET(led, 0);
-
-                    // load counter with duty cycle complement
-                    led->pwm = 100 - led->pwm_duty;
-                }
+                    led->pwm = 100 - cie1931[led->brightness_value];
                 else
-                {
-                    // turn on led
-                    LED_SET(led, 1);
+                    led->pwm = cie1931[led->brightness_value];
 
-                    // load counter with duty cycle value
-                    led->pwm = led->pwm_duty;
-                }
+                // change led state only if value is between min and max
+                if (led->pwm > 0 && led->pwm < 100)
+                    LED_SET(led, !led->state);
             }
         }
 #endif
