@@ -72,8 +72,12 @@ extern "C"
 // configure the logic value which the led turn on (must be 0 or 1)
 #define LEDZ_TURN_ON_VALUE      1
 
+// enable/disable brightness support
+// disabling the brightness saves RAM and program memory
+#define LEDZ_BRIGHTNESS_SUPPORT
+
 // tick period in us
-#define LEDZ_TICK_PERIOD        200
+#define LEDZ_TICK_PERIOD        100
 
 
 /*
@@ -225,6 +229,36 @@ void ledz_blink(ledz_t* led, ledz_color_t color, uint16_t time_on, uint16_t time
  * @param[in] value the brightness value from 0 to 100
  */
 void ledz_brightness(ledz_t* led, ledz_color_t color, unsigned int value);
+
+/**
+ * Fade in LED brightness
+ *
+ * Colors can be combinated using the OR operator.
+ * Progressively turn on the LED using the given rate. The rate is determined in
+ * milliseconds per brightness unit. e.g.: rate = 10 means that the brightness is
+ * increased by one every 10ms. The brightness will increase until max value.
+ *
+ * @param[in] led ledz object pointer
+ * @param[in] color the color to adjust
+ * @param[in] rate fade in rate to turn on the led
+ * @param[in] max the maximum brightness value (stop value)
+ */
+void ledz_fade_in(ledz_t* led, ledz_color_t color, unsigned int rate, unsigned int max);
+
+/**
+ * Fade out LED brightness
+ *
+ * Colors can be combinated using the OR operator.
+ * Progressively turn off the LED using the given rate. The rate is determined in
+ * milliseconds per brightness unit. e.g.: rate = 10 means that the brightness is
+ * decreased by one every 10ms. The brightness will decrease until min value.
+ *
+ * @param[in] led ledz object pointer
+ * @param[in] color the color to adjust
+ * @param[in] rate fade out rate to turn off the led
+ * @param[in] min the minimum brightness value (stop value)
+ */
+void ledz_fade_out(ledz_t* led, ledz_color_t color, unsigned int rate, unsigned int min);
 
 /**
  * The tick function

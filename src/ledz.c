@@ -63,6 +63,7 @@
 */
 
 // table from: http://jared.geek.nz/2013/feb/linear-led-pwm
+#ifdef LEDZ_BRIGHTNESS_SUPPORT
 const unsigned char cie1931[101] = {
       0,   0,   0,   0,   0,   1,   1,   1,   1,   1,
       1,   1,   1,   2,   2,   2,   2,   2,   3,   3,
@@ -76,6 +77,7 @@ const unsigned char cie1931[101] = {
      76,  78,  81,  83,  85,  88,  90,  92,  95,  97,
     100,
 };
+#endif
 
 
 /*
@@ -96,7 +98,12 @@ struct LEDZ_T {
     };
 
     uint16_t time_on, time_off, time;
+
+#ifdef LEDZ_BRIGHTNESS_SUPPORT
     unsigned int pwm, brightness_value;
+    unsigned int fade_in, fade_out;
+    unsigned int fade_min, fade_max, fade_counter;
+#endif
 
     ledz_t *next;
 };
@@ -267,6 +274,7 @@ void ledz_blink(ledz_t* led, ledz_color_t color, uint16_t time_on, uint16_t time
     }
 }
 
+#ifdef LEDZ_BRIGHTNESS_SUPPORT
 void ledz_brightness(ledz_t* led, ledz_color_t color, unsigned int value)
 {
     if (value >= 100)
@@ -294,6 +302,38 @@ void ledz_brightness(ledz_t* led, ledz_color_t color, unsigned int value)
         }
     }
 }
+
+void ledz_fade_in(ledz_t* led, ledz_color_t color, unsigned int rate, unsigned int max)
+{
+    for (int i = 0; led; led = led->next, i++)
+    {
+        if (led->color & color)
+        {
+            led->fade_in = rate;
+            led->fade_max = max;
+
+            if (!led->brightness)
+            {
+                led->pwm = 0;
+                led->brightness_value = 0;
+                led->brightness = 1;
+            }
+        }
+    }
+}
+
+void ledz_fade_out(ledz_t* led, ledz_color_t color, unsigned int rate, unsigned int min)
+{
+    for (int i = 0; led; led = led->next, i++)
+    {
+        if (led->color & color)
+        {
+            led->fade_out = rate;
+            led->fade_min = min;
+        }
+    }
+}
+#endif
 
 void ledz_tick(void)
 {
@@ -354,7 +394,9 @@ void ledz_tick(void)
             }
         }
 
-        // brightness control
+#ifdef LEDZ_BRIGHTNESS_SUPPORT
+
+        // PWM generation for brightness control
 #ifndef LEDZ_GPIO_PWM
         if (led->brightness && (!led->blink || (led->blink && led->blink_state)))
         {
@@ -372,6 +414,43 @@ void ledz_tick(void)
                 // change led state only if value is between min and max
                 if (led->pwm > 0 && led->pwm < 100)
                     LED_SET(led, !led->state);
+            }
+        }
+#endif
+
+        // fade control
+        if (flag_1ms)
+        {
+            // fade in
+            if (led->fade_in > 0 && led->brightness_value < led->fade_max)
+            {
+                if (++led->fade_counter == led->fade_in)
+                {
+                    led->brightness_value++;
+                    led->fade_counter = 0;
+                    LED_PWM(led, cie1931[led->brightness_value]);
+                }
+            }
+            else
+            {
+                // disable fade in
+                led->fade_in = 0;
+            }
+
+            // fade out
+            if (led->fade_out > 0 && led->brightness_value > led->fade_min)
+            {
+                if (++led->fade_counter == led->fade_out)
+                {
+                    led->brightness_value--;
+                    led->fade_counter = 0;
+                    LED_PWM(led, cie1931[led->brightness_value]);
+                }
+            }
+            else
+            {
+                // disable fade out
+                led->fade_out = 0;
             }
         }
 #endif
