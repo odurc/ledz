@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ledz
-   &#160;<span id="projectnumber">1.0.0</span>
+   &#160;<span id="projectnumber">1.1.0</span>
    </div>
   </td>
  </tr>
@@ -66,7 +66,8 @@ $(function() {
   <div class="summary">
 <a href="#nested-classes">Data Structures</a> &#124;
 <a href="#define-members">Macros</a> &#124;
-<a href="#func-members">Functions</a>  </div>
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">ledz.c File Reference</div>  </div>
 </div><!--header-->
@@ -80,12 +81,14 @@ Data Structures</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a15483e3a79d472c13fee9c6bd634f308"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ledz_8c.html#a15483e3a79d472c13fee9c6bd634f308">LEDZ_TURN_OFF_VALUE</a>&#160;&#160;&#160;(1 - <a class="el" href="ledz_8h.html#a1232212f292e21f8203b870a84b5bdfc">LEDZ_TURN_ON_VALUE</a>)</td></tr>
-<tr class="separator:a15483e3a79d472c13fee9c6bd634f308"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a57892f95f5eb9b141141b86dd59731d2"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ledz_8c.html#a57892f95f5eb9b141141b86dd59731d2">TICKS_TO_1ms</a>&#160;&#160;&#160;((10000 / <a class="el" href="ledz_8h.html#ac9de191a5b6c2d044735a5ebbf881f5a">LEDZ_TICK_PERIOD</a> + 5) / 10)</td></tr>
 <tr class="separator:a57892f95f5eb9b141141b86dd59731d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7861c9db58fb8ba52902ce50e2f4754f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ledz_8c.html#a7861c9db58fb8ba52902ce50e2f4754f">LED_SET</a>(led,  val)&#160;&#160;&#160;<a class="el" href="ledz_8h.html#a839e63ec8cb6666a485c91e584a25c69">LEDZ_GPIO_SET</a>(led-&gt;pins[0], led-&gt;pins[1], (val));</td></tr>
+<tr class="memitem:ac143fb88753933eaa1c5eb7bf645beee"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ledz_8c.html#ac143fb88753933eaa1c5eb7bf645beee">LED_VALUE</a>(val)&#160;&#160;&#160;(!(<a class="el" href="ledz_8h.html#a1232212f292e21f8203b870a84b5bdfc">LEDZ_TURN_ON_VALUE</a> ^ (val)))</td></tr>
+<tr class="separator:ac143fb88753933eaa1c5eb7bf645beee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7861c9db58fb8ba52902ce50e2f4754f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ledz_8c.html#a7861c9db58fb8ba52902ce50e2f4754f">LED_SET</a>(led,  val)</td></tr>
 <tr class="separator:a7861c9db58fb8ba52902ce50e2f4754f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b20191c811a4140319e210217c22777"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ledz_8c.html#a1b20191c811a4140319e210217c22777">LED_PWM</a>(led,  duty)</td></tr>
+<tr class="separator:a1b20191c811a4140319e210217c22777"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
@@ -110,11 +113,53 @@ Functions</h2></td></tr>
 <tr class="memitem:ga8b15db6a02b1cee4f7ba97c3e54023f0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__ledz__funcs.html#ga8b15db6a02b1cee4f7ba97c3e54023f0">ledz_blink</a> (<a class="el" href="structledz__t.html">ledz_t</a> *led, <a class="el" href="structledz__color__t.html">ledz_color_t</a> color, uint16_t time_on, uint16_t time_off)</td></tr>
 <tr class="memdesc:ga8b15db6a02b1cee4f7ba97c3e54023f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start LED blinking.  <a href="group__ledz__funcs.html#ga8b15db6a02b1cee4f7ba97c3e54023f0">More...</a><br /></td></tr>
 <tr class="separator:ga8b15db6a02b1cee4f7ba97c3e54023f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga27b3543679fb44ee306c01c240525f57"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__ledz__funcs.html#ga27b3543679fb44ee306c01c240525f57">ledz_brightness</a> (<a class="el" href="structledz__t.html">ledz_t</a> *led, <a class="el" href="structledz__color__t.html">ledz_color_t</a> color, unsigned int value)</td></tr>
+<tr class="memdesc:ga27b3543679fb44ee306c01c240525f57"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set LED brightness.  <a href="group__ledz__funcs.html#ga27b3543679fb44ee306c01c240525f57">More...</a><br /></td></tr>
+<tr class="separator:ga27b3543679fb44ee306c01c240525f57"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1fdeba6ba293659be8a269aca2d66784"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__ledz__funcs.html#ga1fdeba6ba293659be8a269aca2d66784">ledz_fade_in</a> (<a class="el" href="structledz__t.html">ledz_t</a> *led, <a class="el" href="structledz__color__t.html">ledz_color_t</a> color, unsigned int rate, unsigned int max)</td></tr>
+<tr class="memdesc:ga1fdeba6ba293659be8a269aca2d66784"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fade in LED brightness.  <a href="group__ledz__funcs.html#ga1fdeba6ba293659be8a269aca2d66784">More...</a><br /></td></tr>
+<tr class="separator:ga1fdeba6ba293659be8a269aca2d66784"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad72fb5a1e305301961b15e591c4915f8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__ledz__funcs.html#gad72fb5a1e305301961b15e591c4915f8">ledz_fade_out</a> (<a class="el" href="structledz__t.html">ledz_t</a> *led, <a class="el" href="structledz__color__t.html">ledz_color_t</a> color, unsigned int rate, unsigned int min)</td></tr>
+<tr class="memdesc:gad72fb5a1e305301961b15e591c4915f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fade out LED brightness.  <a href="group__ledz__funcs.html#gad72fb5a1e305301961b15e591c4915f8">More...</a><br /></td></tr>
+<tr class="separator:gad72fb5a1e305301961b15e591c4915f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga592ab0852a4a042141f2a609ff026a0e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__ledz__funcs.html#ga592ab0852a4a042141f2a609ff026a0e">ledz_tick</a> (void)</td></tr>
 <tr class="memdesc:ga592ab0852a4a042141f2a609ff026a0e"><td class="mdescLeft">&#160;</td><td class="mdescRight">The tick function.  <a href="group__ledz__funcs.html#ga592ab0852a4a042141f2a609ff026a0e">More...</a><br /></td></tr>
 <tr class="separator:ga592ab0852a4a042141f2a609ff026a0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:af68db1819dfae9e0d560f99f38ab3cdf"><td class="memItemLeft" align="right" valign="top">const unsigned char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ledz_8c.html#af68db1819dfae9e0d560f99f38ab3cdf">cie1931</a> [101]</td></tr>
+<tr class="separator:af68db1819dfae9e0d560f99f38ab3cdf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a1b20191c811a4140319e210217c22777"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1b20191c811a4140319e210217c22777">&#9670;&nbsp;</a></span>LED_PWM</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LED_PWM</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">led, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">duty&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a7861c9db58fb8ba52902ce50e2f4754f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7861c9db58fb8ba52902ce50e2f4754f">&#9670;&nbsp;</a></span>LED_SET</h2>
 
@@ -136,21 +181,27 @@ Functions</h2></td></tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td>&#160;&#160;&#160;<a class="el" href="ledz_8h.html#a839e63ec8cb6666a485c91e584a25c69">LEDZ_GPIO_SET</a>(led-&gt;pins[0], led-&gt;pins[1], (val));</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-
+<b>Value:</b><div class="fragment"><div class="line"><a class="code" href="ledz_8h.html#a839e63ec8cb6666a485c91e584a25c69">LEDZ_GPIO_SET</a>(led-&gt;pins[0], led-&gt;pins[1], <a class="code" href="ledz_8c.html#ac143fb88753933eaa1c5eb7bf645beee">LED_VALUE</a>(val)); \</div><div class="line">                            led-&gt;state = (val);</div><div class="ttc" id="ledz_8c_html_ac143fb88753933eaa1c5eb7bf645beee"><div class="ttname"><a href="ledz_8c.html#ac143fb88753933eaa1c5eb7bf645beee">LED_VALUE</a></div><div class="ttdeci">#define LED_VALUE(val)</div><div class="ttdef"><b>Definition:</b> ledz.c:45</div></div>
+<div class="ttc" id="ledz_8h_html_a839e63ec8cb6666a485c91e584a25c69"><div class="ttname"><a href="ledz_8h.html#a839e63ec8cb6666a485c91e584a25c69">LEDZ_GPIO_SET</a></div><div class="ttdeci">#define LEDZ_GPIO_SET(port, pin, value)</div><div class="ttdef"><b>Definition:</b> ledz.h:62</div></div>
+</div><!-- fragment -->
 </div>
 </div>
-<a id="a15483e3a79d472c13fee9c6bd634f308"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a15483e3a79d472c13fee9c6bd634f308">&#9670;&nbsp;</a></span>LEDZ_TURN_OFF_VALUE</h2>
+<a id="ac143fb88753933eaa1c5eb7bf645beee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac143fb88753933eaa1c5eb7bf645beee">&#9670;&nbsp;</a></span>LED_VALUE</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define LEDZ_TURN_OFF_VALUE&#160;&#160;&#160;(1 - <a class="el" href="ledz_8h.html#a1232212f292e21f8203b870a84b5bdfc">LEDZ_TURN_ON_VALUE</a>)</td>
+          <td class="memname">#define LED_VALUE</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">val</td><td>)</td>
+          <td>&#160;&#160;&#160;(!(<a class="el" href="ledz_8h.html#a1232212f292e21f8203b870a84b5bdfc">LEDZ_TURN_ON_VALUE</a> ^ (val)))</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -169,6 +220,21 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+</div>
+</div>
+<h2 class="groupheader">Variable Documentation</h2>
+<a id="af68db1819dfae9e0d560f99f38ab3cdf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af68db1819dfae9e0d560f99f38ab3cdf">&#9670;&nbsp;</a></span>cie1931</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const unsigned char cie1931[101]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= {</div><div class="line">      0,   0,   0,   0,   0,   1,   1,   1,   1,   1,</div><div class="line">      1,   1,   1,   2,   2,   2,   2,   2,   3,   3,</div><div class="line">      3,   3,   4,   4,   4,   4,   5,   5,   5,   6,</div><div class="line">      6,   7,   7,   8,   8,   8,   9,  10,  10,  11,</div><div class="line">     11,  12,  12,  13,  14,  15,  15,  16,  17,  18,</div><div class="line">     18,  19,  20,  21,  22,  23,  24,  25,  26,  27,</div><div class="line">     28,  29,  30,  32,  33,  34,  35,  37,  38,  39,</div><div class="line">     41,  42,  44,  45,  47,  48,  50,  52,  53,  55,</div><div class="line">     57,  58,  60,  62,  64,  66,  68,  70,  72,  74,</div><div class="line">     76,  78,  81,  83,  85,  88,  90,  92,  95,  97,</div><div class="line">    100,</div><div class="line">}</div></div><!-- fragment -->
 </div>
 </div>
 </div><!-- contents -->

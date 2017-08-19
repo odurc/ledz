@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ledz
-   &#160;<span id="projectnumber">1.0.0</span>
+   &#160;<span id="projectnumber">1.1.0</span>
    </div>
   </td>
  </tr>
@@ -68,6 +68,7 @@ $(function() {
 <ul>
 <li>CPU agnostic implementation</li>
 <li>use only static memory allocation</li>
+<li>support to blink, brightness, fade in/out</li>
 <li>widely configurable via macros</li>
 </ul>
 <h2>How to install </h2>
@@ -78,9 +79,10 @@ $(function() {
 <p>To use the library with an Arduino the configuration would be: </p><pre class="fragment">#include &lt;Arduino.h&gt;
 // ...
 #define LEDZ_GPIO_SET(port,pin,value)   digitalWrite(pin,value)
-</pre><p>The other settings are optional and can be adjusted as needed. The macro <em>LEDZ_MAX_INSTANCES</em> is used to define the total amount of LEDs being controlled by the library. Note that a RGB LED requires three LEDs. For example, if you have two RGB LEDs on your system, you have to set <em>LEDZ_MAX_INSTANCES</em> to the value 6. The macro <em>LEDZ_TURN_ON_VALUE</em> defines if the LED turns on with high or low logic. Finally, the <em>LEDZ_TICK_PERIOD</em> macro is used to set the interrupt service routine (ISR) period.</p>
+</pre><p>The other settings are preset and can be adjusted as needed. The macro <em>LEDZ_MAX_INSTANCES</em> is used to define the total amount of LEDs being controlled by the library. Note that a RGB LED requires three LEDs. For example, if you have two RGB LEDs on your system, you have to set <em>LEDZ_MAX_INSTANCES</em> to the value 6. The macro <em>LEDZ_TURN_ON_VALUE</em> defines if the LED turns on with high or low logic and the <em>LEDZ_TICK_PERIOD</em> macro is used to set the interrupt service routine (ISR) period.</p>
+<p>The LEDs brightness support is enabled by default through the <em>LEDZ_BRIGHTNESS_SUPPORT</em> macro. You can disable the brightness support by commenting out that macro line. This saves RAM and program memory. The PWM used to control the brightness can be either, generated internally or provided by the user via <em>LEDZ_GPIO_PWM</em> macro.</p>
 <h2>How to use </h2>
-<p>Once the configuration is done the library is ready to be used. However, if you want to use any time-based function, as <code>ledz_blink</code> you must place the call of <code>ledz_tick</code>function in the ISR.</p>
+<p>Once the configuration is done the last required step, before start to use the library, is to place the function <code>ledz_tick</code> inside one timer ISR. Remember that the period of this timer must match with the value in <em>LEDZ_TICK_PERIOD</em> macro.</p>
 <p>Remark: this library does not configure the GPIO direction, you have to do it before use any LED control function.</p>
 <p>To see more details how to use the library, please check the online <a href="http://ricardocrudo.github.io/ledz">API documentation</a>.</p>
 <h2>License </h2>

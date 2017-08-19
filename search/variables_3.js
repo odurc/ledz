@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['pins',['pins',['../structLEDZ__T.html#a8b301791773d9c2f76117e252268d4e6',1,'LEDZ_T']]]
+  ['next',['next',['../structLEDZ__T.html#aae9b5bf8077084a6ebeec2c73575b1cc',1,'LEDZ_T']]]
 ];

@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ledz
-   &#160;<span id="projectnumber">1.0.0</span>
+   &#160;<span id="projectnumber">1.1.0</span>
    </div>
   </td>
  </tr>
@@ -92,6 +92,15 @@ Functions</h2></td></tr>
 <tr class="memitem:ga8b15db6a02b1cee4f7ba97c3e54023f0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__ledz__funcs.html#ga8b15db6a02b1cee4f7ba97c3e54023f0">ledz_blink</a> (<a class="el" href="structledz__t.html">ledz_t</a> *led, <a class="el" href="structledz__color__t.html">ledz_color_t</a> color, uint16_t time_on, uint16_t time_off)</td></tr>
 <tr class="memdesc:ga8b15db6a02b1cee4f7ba97c3e54023f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start LED blinking.  <a href="#ga8b15db6a02b1cee4f7ba97c3e54023f0">More...</a><br /></td></tr>
 <tr class="separator:ga8b15db6a02b1cee4f7ba97c3e54023f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga27b3543679fb44ee306c01c240525f57"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__ledz__funcs.html#ga27b3543679fb44ee306c01c240525f57">ledz_brightness</a> (<a class="el" href="structledz__t.html">ledz_t</a> *led, <a class="el" href="structledz__color__t.html">ledz_color_t</a> color, unsigned int value)</td></tr>
+<tr class="memdesc:ga27b3543679fb44ee306c01c240525f57"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set LED brightness.  <a href="#ga27b3543679fb44ee306c01c240525f57">More...</a><br /></td></tr>
+<tr class="separator:ga27b3543679fb44ee306c01c240525f57"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1fdeba6ba293659be8a269aca2d66784"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__ledz__funcs.html#ga1fdeba6ba293659be8a269aca2d66784">ledz_fade_in</a> (<a class="el" href="structledz__t.html">ledz_t</a> *led, <a class="el" href="structledz__color__t.html">ledz_color_t</a> color, unsigned int rate, unsigned int max)</td></tr>
+<tr class="memdesc:ga1fdeba6ba293659be8a269aca2d66784"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fade in LED brightness.  <a href="#ga1fdeba6ba293659be8a269aca2d66784">More...</a><br /></td></tr>
+<tr class="separator:ga1fdeba6ba293659be8a269aca2d66784"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad72fb5a1e305301961b15e591c4915f8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__ledz__funcs.html#gad72fb5a1e305301961b15e591c4915f8">ledz_fade_out</a> (<a class="el" href="structledz__t.html">ledz_t</a> *led, <a class="el" href="structledz__color__t.html">ledz_color_t</a> color, unsigned int rate, unsigned int min)</td></tr>
+<tr class="memdesc:gad72fb5a1e305301961b15e591c4915f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fade out LED brightness.  <a href="#gad72fb5a1e305301961b15e591c4915f8">More...</a><br /></td></tr>
+<tr class="separator:gad72fb5a1e305301961b15e591c4915f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga592ab0852a4a042141f2a609ff026a0e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__ledz__funcs.html#ga592ab0852a4a042141f2a609ff026a0e">ledz_tick</a> (void)</td></tr>
 <tr class="memdesc:ga592ab0852a4a042141f2a609ff026a0e"><td class="mdescLeft">&#160;</td><td class="mdescRight">The tick function.  <a href="#ga592ab0852a4a042141f2a609ff026a0e">More...</a><br /></td></tr>
 <tr class="separator:ga592ab0852a4a042141f2a609ff026a0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -138,13 +147,59 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Start LED blinking. </p>
-<p>Colors can be combinated using the OR operator. Start blinking the LED(s) according the requested time. To stop blinking use ledz_on, ledz_off, ledz_toggle or ledz_set functions. This function can also be used to stop the blinking passing zero to time_on or time_off.</p>
+<p>Colors can be combinated using the OR operator.</p>
+<p>Start blinking the LED(s) according the requested time. To stop blinking use ledz_on, ledz_off, ledz_toggle or ledz_set functions. This function can also be used to stop the blinking passing zero to time_on or time_off.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">led</td><td>ledz object pointer </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">color</td><td>the color to blink </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">time_on</td><td>the time in milliseconds which the LED will be on </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">time_off</td><td>the time in milliseconds which the LED will be off </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga27b3543679fb44ee306c01c240525f57"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga27b3543679fb44ee306c01c240525f57">&#9670;&nbsp;</a></span>ledz_brightness()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ledz_brightness </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structledz__t.html">ledz_t</a> *&#160;</td>
+          <td class="paramname"><em>led</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structledz__color__t.html">ledz_color_t</a>&#160;</td>
+          <td class="paramname"><em>color</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned int&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set LED brightness. </p>
+<p>Colors can be combinated using the OR operator.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">led</td><td>ledz object pointer </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">color</td><td>the color to adjust </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">value</td><td>the brightness value from 0 to 100 </td></tr>
   </table>
   </dd>
 </dl>
@@ -185,9 +240,7 @@ Functions</h2></td></tr>
 
 <p>Create ledz object. </p>
 <p>When creating a ledz the type must be passed as the first argument and it must be one of the values defined by <a class="el" href="structledz__type__t.html" title="LED types, i.e. ">ledz_type_t</a> enumeration. The second argument must be an array containing the color(s) of the LED being created. The third argument must be an integer array of the port and pin of each LED in correspondence with the previous color(s).</p>
-<p>Examples: ledz_create(LEDZ_1COLOR, (const <a class="el" href="structledz__color__t.html" title="LED colors. ">ledz_color_t</a> []){LEDZ_RED}, (const int []){0, 1});</p>
-<p>const <a class="el" href="structledz__color__t.html" title="LED colors. ">ledz_color_t</a> colors[] = {LEDZ_RED, LEDZ_GREEN, LEDZ_BLUE}; const int pins[] = {0, 1, 0, 2, 0, 3}; ledz_create(LEDZ_3COLOR, colors, pins);</p>
-<dl class="params"><dt>Parameters</dt><dd>
+<p>Examples: </p><div class="fragment"><div class="line"><span class="comment">// create one color LED</span></div><div class="line"><a class="code" href="group__ledz__funcs.html#ga71b0315abcab3426ad9ae9df21180ab0">ledz_create</a>(<a class="code" href="ledz_8h.html#a812b13fe974eeea452a656670a85f4eba769dff4de9289d789d12d263255f2ba8">LEDZ_1COLOR</a>, (<span class="keyword">const</span> <a class="code" href="structledz__color__t.html">ledz_color_t</a> []){<a class="code" href="ledz_8h.html#a71c43101a5fe2a64506e12128557b641a3ad2a31aa18392e54784ea8db7599b8b">LEDZ_RED</a>}, (<span class="keyword">const</span> <span class="keywordtype">int</span> []){0, 1});</div><div class="line"></div><div class="line"><span class="comment">// create RGB LED</span></div><div class="line"><span class="keyword">const</span> <a class="code" href="structledz__color__t.html">ledz_color_t</a> colors[] = {<a class="code" href="ledz_8h.html#a71c43101a5fe2a64506e12128557b641a3ad2a31aa18392e54784ea8db7599b8b">LEDZ_RED</a>, <a class="code" href="ledz_8h.html#a71c43101a5fe2a64506e12128557b641abf13228b3d07fa4cbbd754a232affc3f">LEDZ_GREEN</a>, <a class="code" href="ledz_8h.html#a71c43101a5fe2a64506e12128557b641a433019d3be66bf652c187fff5660c45f">LEDZ_BLUE</a>};</div><div class="line"><span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="structLEDZ__T.html#a8b301791773d9c2f76117e252268d4e6">pins</a>[] = {0, 1,  0, 2,  0, 3};</div><div class="line"><a class="code" href="group__ledz__funcs.html#ga71b0315abcab3426ad9ae9df21180ab0">ledz_create</a>(<a class="code" href="ledz_8h.html#a812b13fe974eeea452a656670a85f4ebaed32400f6d3325d9d89e98728b6f9026">LEDZ_3COLOR</a>, colors, pins);</div></div><!-- fragment --><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">type</td><td>must one of the values in <a class="el" href="structledz__type__t.html" title="LED types, i.e. ">ledz_type_t</a> declaration </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">colors</td><td>its a <a class="el" href="structledz__color__t.html" title="LED colors. ">ledz_color_t</a> type array containing the LED colors </td></tr>
@@ -219,6 +272,112 @@ Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">led</td><td>ledz object pointer </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga1fdeba6ba293659be8a269aca2d66784"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga1fdeba6ba293659be8a269aca2d66784">&#9670;&nbsp;</a></span>ledz_fade_in()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ledz_fade_in </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structledz__t.html">ledz_t</a> *&#160;</td>
+          <td class="paramname"><em>led</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structledz__color__t.html">ledz_color_t</a>&#160;</td>
+          <td class="paramname"><em>color</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned int&#160;</td>
+          <td class="paramname"><em>rate</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned int&#160;</td>
+          <td class="paramname"><em>max</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Fade in LED brightness. </p>
+<p>Colors can be combinated using the OR operator.</p>
+<p>Progressively turn on the LED using the given rate. The rate is determined in milliseconds per brightness unit. e.g.: rate = 10 means that the brightness is increased by one every 10ms. The brightness will increase until max value.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">led</td><td>ledz object pointer </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">color</td><td>the color to adjust </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">rate</td><td>fade in rate to turn on the led </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">max</td><td>the maximum brightness value (stop value) </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="gad72fb5a1e305301961b15e591c4915f8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gad72fb5a1e305301961b15e591c4915f8">&#9670;&nbsp;</a></span>ledz_fade_out()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ledz_fade_out </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structledz__t.html">ledz_t</a> *&#160;</td>
+          <td class="paramname"><em>led</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structledz__color__t.html">ledz_color_t</a>&#160;</td>
+          <td class="paramname"><em>color</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned int&#160;</td>
+          <td class="paramname"><em>rate</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned int&#160;</td>
+          <td class="paramname"><em>min</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Fade out LED brightness. </p>
+<p>Colors can be combinated using the OR operator.</p>
+<p>Progressively turn off the LED using the given rate. The rate is determined in milliseconds per brightness unit. e.g.: rate = 10 means that the brightness is decreased by one every 10ms. The brightness will decrease until min value.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">led</td><td>ledz object pointer </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">color</td><td>the color to adjust </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">rate</td><td>fade out rate to turn off the led </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">min</td><td>the minimum brightness value (stop value) </td></tr>
   </table>
   </dd>
 </dl>
@@ -334,7 +493,8 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Set LED state. </p>
-<p>Colors can be combinated using the OR operator. Positive value turn the LED on, zero turn the LED off and negative value toggle the LED state.</p>
+<p>Colors can be combinated using the OR operator.</p>
+<p>Positive value turn the LED on, zero turn the LED off and negative value toggle the LED state.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">led</td><td>ledz object pointer </td></tr>
