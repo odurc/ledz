@@ -49,7 +49,7 @@ extern "C"
 ****************************************************************************************************
 */
 
-#define LEDZ_VERSION     "1.0.0"
+#define LEDZ_VERSION     "1.1.0"
 
 
 /*
@@ -195,6 +195,7 @@ void ledz_toggle(ledz_t* led, ledz_color_t color);
  * Set LED state
  *
  * Colors can be combinated using the OR operator.
+ *
  * Positive value turn the LED on, zero turn the LED off and negative
  * value toggle the LED state.
  *
@@ -208,6 +209,7 @@ void ledz_set(ledz_t* led, ledz_color_t color, int value);
  * Start LED blinking
  *
  * Colors can be combinated using the OR operator.
+ *
  * Start blinking the LED(s) according the requested time. To stop blinking
  * use ledz_on, ledz_off, ledz_toggle or ledz_set functions. This function
  * can also be used to stop the blinking passing zero to time_on or time_off.
@@ -234,6 +236,7 @@ void ledz_brightness(ledz_t* led, ledz_color_t color, unsigned int value);
  * Fade in LED brightness
  *
  * Colors can be combinated using the OR operator.
+ *
  * Progressively turn on the LED using the given rate. The rate is determined in
  * milliseconds per brightness unit. e.g.: rate = 10 means that the brightness is
  * increased by one every 10ms. The brightness will increase until max value.
@@ -249,6 +252,7 @@ void ledz_fade_in(ledz_t* led, ledz_color_t color, unsigned int rate, unsigned i
  * Fade out LED brightness
  *
  * Colors can be combinated using the OR operator.
+ *
  * Progressively turn off the LED using the given rate. The rate is determined in
  * milliseconds per brightness unit. e.g.: rate = 10 means that the brightness is
  * decreased by one every 10ms. The brightness will decrease until min value.
