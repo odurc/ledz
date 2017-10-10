@@ -150,7 +150,7 @@ typedef enum ledz_color_t {
  * @param[in] colors its a ledz_color_t type array containing the LED colors
  * @param[in] pins an integer array of the port and pin of each LED
  *
- * @return pointer to stimer object or NULL if no more timers are available
+ * @return pointer to ledz object or NULL if no more led is available
  */
 ledz_t* ledz_create(ledz_type_t type, const ledz_color_t *colors, const int *pins);
 
@@ -196,8 +196,8 @@ void ledz_toggle(ledz_t* led, ledz_color_t color);
  *
  * Colors can be combinated using the OR operator.
  *
- * Positive value turn the LED on, zero turn the LED off and negative
- * value toggle the LED state.
+ * Positive value turns the LED on, zero turns the LED off and negative
+ * value toggles the LED state.
  *
  * @param[in] led ledz object pointer
  * @param[in] color the color to set
@@ -210,7 +210,7 @@ void ledz_set(ledz_t* led, ledz_color_t color, int value);
  *
  * Colors can be combinated using the OR operator.
  *
- * Start blinking the LED(s) according the requested time. To stop blinking
+ * Starts blinking the LED(s) according the requested time. To stop blinking
  * use ledz_on, ledz_off, ledz_toggle or ledz_set functions. This function
  * can also be used to stop the blinking passing zero to time_on or time_off.
  *
@@ -237,7 +237,7 @@ void ledz_brightness(ledz_t* led, ledz_color_t color, unsigned int value);
  *
  * Colors can be combinated using the OR operator.
  *
- * Progressively turn on the LED using the given rate. The rate is determined in
+ * Progressively turns on the LED using the given rate. The rate is determined in
  * milliseconds per brightness unit. e.g.: rate = 10 means that the brightness is
  * increased by one every 10ms. The brightness will increase until max value.
  *
@@ -253,7 +253,7 @@ void ledz_fade_in(ledz_t* led, ledz_color_t color, unsigned int rate, unsigned i
  *
  * Colors can be combinated using the OR operator.
  *
- * Progressively turn off the LED using the given rate. The rate is determined in
+ * Progressively turns off the LED using the given rate. The rate is determined in
  * milliseconds per brightness unit. e.g.: rate = 10 means that the brightness is
  * decreased by one every 10ms. The brightness will decrease until min value.
  *
@@ -267,7 +267,7 @@ void ledz_fade_out(ledz_t* led, ledz_color_t color, unsigned int rate, unsigned 
 /**
  * The tick function
  *
- * This function must be used to define the clock of the ledz core. It must be called
+ * This function is used to define the clock of the ledz core. It must be called
  * from an interrupt service routine (ISR). The period of the interruption must be set
  * using the LEDZ_TICK_PERIOD macro.
  */
