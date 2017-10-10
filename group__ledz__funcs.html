@@ -148,7 +148,7 @@ Functions</h2></td></tr>
 
 <p>Start LED blinking. </p>
 <p>Colors can be combinated using the OR operator.</p>
-<p>Start blinking the LED(s) according the requested time. To stop blinking use ledz_on, ledz_off, ledz_toggle or ledz_set functions. This function can also be used to stop the blinking passing zero to time_on or time_off.</p>
+<p>Starts blinking the LED(s) according the requested time. To stop blinking use ledz_on, ledz_off, ledz_toggle or ledz_set functions. This function can also be used to stop the blinking passing zero to time_on or time_off.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">led</td><td>ledz object pointer </td></tr>
@@ -248,7 +248,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>pointer to stimer object or NULL if no more timers are available </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>pointer to ledz object or NULL if no more led is available </dd></dl>
 
 </div>
 </div>
@@ -318,7 +318,7 @@ Functions</h2></td></tr>
 
 <p>Fade in LED brightness. </p>
 <p>Colors can be combinated using the OR operator.</p>
-<p>Progressively turn on the LED using the given rate. The rate is determined in milliseconds per brightness unit. e.g.: rate = 10 means that the brightness is increased by one every 10ms. The brightness will increase until max value.</p>
+<p>Progressively turns on the LED using the given rate. The rate is determined in milliseconds per brightness unit. e.g.: rate = 10 means that the brightness is increased by one every 10ms. The brightness will increase until max value.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">led</td><td>ledz object pointer </td></tr>
@@ -371,7 +371,7 @@ Functions</h2></td></tr>
 
 <p>Fade out LED brightness. </p>
 <p>Colors can be combinated using the OR operator.</p>
-<p>Progressively turn off the LED using the given rate. The rate is determined in milliseconds per brightness unit. e.g.: rate = 10 means that the brightness is decreased by one every 10ms. The brightness will decrease until min value.</p>
+<p>Progressively turns off the LED using the given rate. The rate is determined in milliseconds per brightness unit. e.g.: rate = 10 means that the brightness is decreased by one every 10ms. The brightness will decrease until min value.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">led</td><td>ledz object pointer </td></tr>
@@ -494,7 +494,7 @@ Functions</h2></td></tr>
 
 <p>Set LED state. </p>
 <p>Colors can be combinated using the OR operator.</p>
-<p>Positive value turn the LED on, zero turn the LED off and negative value toggle the LED state.</p>
+<p>Positive value turns the LED on, zero turns the LED off and negative value toggles the LED state.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">led</td><td>ledz object pointer </td></tr>
@@ -523,7 +523,7 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>The tick function. </p>
-<p>This function must be used to define the clock of the ledz core. It must be called from an interrupt service routine (ISR). The period of the interruption must be set using the LEDZ_TICK_PERIOD macro. </p>
+<p>This function is used to define the clock of the ledz core. It must be called from an interrupt service routine (ISR). The period of the interruption must be set using the LEDZ_TICK_PERIOD macro. </p>
 
 </div>
 </div>
